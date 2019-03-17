@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.uestc.dao.UsersMapper" >
+    <insert id="insertUser"
+            parameterType="cn.uestc.pojo.Users">
+        insert into users(username,userage)
+        values(#{username},#{userage})
+    </insert>
+    <select id="selectUserAll"
+            resultType="cn.uestc.pojo.Users">
+        select userid,username,userage from users
+    </select>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cn.uestc</groupId>
+  <artifactId>manager</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>pojo</module>
+    <module>dao</module>
+    <module>service</module>
+    <module>web</module>
+  </modules>
+
+  <!--
+        给项目起名的，manager工程的maven项目名称为Maven，所以在Maven Projects菜单中
+    看到的名称为Maven而不是manager。
+        name标签可以去掉，去掉后project的名称命名maven项目名称，所以菜单中的名称会
+    变成manager。子工程中同理。
+    -->
+ <!-- <name>Maven</name>-->
+
+  <!-- FIXME change it to the project's website -->
+  <url>http://maven.apache.org/</url>
+  <inceptionYear>2001</inceptionYear>
+
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>scp://webhost.company.com/www/website</url>
+    </site>
+  </distributionManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--对依赖的坐标的版本做集中管理-->
+    <junit.version>4.12</junit.version>
+    <spring.version>4.1.3.RELEASE</spring.version>
+    <mybatis.version>3.2.8</mybatis.version>
+    <mybatis.spring.version>1.2.2</mybatis.spring.version>
+    <mysql.version>5.1.32</mysql.version>
+    <druid.version>1.0.9</druid.version>
+    <jstl.version>1.2</jstl.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <jsp.version>2.0</jsp.version>
+    <tomcat.version>2.2</tomcat.version>
+  </properties>
+
+  <!--父工程只是对依赖进行版本管理，并不进行注入-->
+  <dependencyManagement>
+    <!--测试包-->
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <!--spring提供的用于测试spring框架中的各种方法，可以使用@RunWith注解-->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <!--mybatis mapper/dao层-->
+      <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>${mybatis.version}</version>
+      </dependency><dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${mybatis.spring.version}</version>
+    </dependency>
+      <!--mysql mapper/dao层-->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>${druid.version}</version>
+      </dependency>
+      <!--spring,service层-->
+      <dependency><groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <!--sping-webmvc用于web/controller层，放在这里是因为其属于spring，并不属于service层-->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aspects</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <!--jsp&servlet web层-->
+      <dependency>
+        <groupId>jstl</groupId>
+        <artifactId>jstl</artifactId>
+        <version>${jstl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>${jsp.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <!--配置资源拷贝插件,让父工程在打包上传是不遗漏配xml的各种配置文件-->
+    <resources>
+    <resource>
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.xml</include>
+      </includes>
+    </resource>
+    <resource>
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>**/*.xml</include>
+        <include>**/*.properties</include>
+      </includes></resource>
+    </resources>
+      <plugins>
+        <!--tomcat插件-->
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>${tomcat.version}</version>
+          <configuration>
+            <path>/</path>
+            <port>9090</port>
+          </configuration>
+        </plugin>
+      </plugins>
+  </build>
+
+</project>
